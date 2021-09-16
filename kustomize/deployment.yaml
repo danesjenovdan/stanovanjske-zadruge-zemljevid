@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stanovanjske-zadruge-zemljevid-deployment
+  labels:
+    app: stanovanjske-zadruge-zemljevid
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stanovanjske-zadruge-zemljevid
+  template:
+    metadata:
+      labels:
+        app: stanovanjske-zadruge-zemljevid
+    spec:
+      initContainers:
+        - name: collectstatic
+          image: stanovanjske-zadruge-zemljevid
+          command:
+            - python
+            - manage.py
+            - collectstatic
+            - --no-input
+          env:
+            - name: DJANGO_SETTINGS_MODULE
+              value: stanovanjskeZadrugeZemljevidApi.settings
+          envFrom:
+            - secretRef:
+                name: stanovanjske-zadruge-zemljevid-secrets
+#          resources:
+#            requests:
+#              memory: 1Gi
+#              cpu: 200m
+#            limits:
+#              memory: 1Gi
+#              cpu: 200m
+        - name: migrate
+          image: stanovanjske-zadruge-zemljevid
+          command:
+            - python
+            - manage.py
+            - migrate
+          env:
+            - name: DJANGO_SETTINGS_MODULE
+              value: stanovanjskeZadrugeZemljevidApi.settings
+          envFrom:
+            - secretRef:
+                name: stanovanjske-zadruge-zemljevid-secrets
+#          resources:
+#            requests:
+#              memory: 1Gi
+#              cpu: 200m
+#            limits:
+#              memory: 1Gi
+#              cpu: 200m
+      containers:
+        - name: stanovanjske-zadruge-zemljevid
+          image: stanovanjske-zadruge-zemljevid
+          command:
+            - gunicorn
+            - stanovanjskeZadrugeZemljevidApi.wsgi:application
+            - -b
+            - 0.0.0.0:8000
+            - --log-level
+            - DEBUG
+            - --workers
+            - "1"
+            - --threads
+            - "3"
+            - --timeout
+            - "120"
+          ports:
+            - containerPort: 8000
+          envFrom:
+              - secretRef:
+                  name: stanovanjske-zadruge-zemljevid-secrets
+          env:
+            - name: DJANGO_SETTINGS_MODULE
+              value: stanovanjskeZadrugeZemljevidApi.settings
+#          resources:
+#            requests:
+#              memory: 1Gi
+#              cpu: 500m
+#            limits:
+#              memory: 1Gi
+#              cpu: 500m

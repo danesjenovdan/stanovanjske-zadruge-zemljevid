@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: stanovanjske-zadruge-zemljevid
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-production"
+spec:
+  tls:
+    - hosts:
+        - stanovanjske-zadruge-zemljevid.lb.djnd.si
+      secretName: stanovanjske-zadruge-zemljevid-tls
+  rules:
+    - host: stanovanjske-zadruge-zemljevid.lb.djnd.si
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: stanovanjske-zadruge-zemljevid
+                port:
+                  number: 8000
