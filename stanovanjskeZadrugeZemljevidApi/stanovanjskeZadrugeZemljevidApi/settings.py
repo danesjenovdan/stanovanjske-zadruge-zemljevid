@@ -77,13 +77,20 @@ WSGI_APPLICATION = 'stanovanjskeZadrugeZemljevidApi.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
 DATABASES = {
-    'default': {
+    'default': ({
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.getenv('DB_NAME', ''),
+        'USER': os.getenv('DB_USERNAME', ''),
+        'PASSWORD': os.getenv('DB_PASSWORD', ''),
+        'HOST': os.getenv('DB_HOST', ''),
+        'PORT': os.getenv('DB_PORT', '5432'),
+    } if os.getenv('APP_ENV', 'development') == 'production' else {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    })
 }
+
 
 
 # Password validation
