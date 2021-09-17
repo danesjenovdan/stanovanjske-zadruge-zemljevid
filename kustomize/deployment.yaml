@@ -25,6 +25,8 @@ spec:
           env:
             - name: DJANGO_SETTINGS_MODULE
               value: stanovanjskeZadrugeZemljevidApi.settings
+            - name: APP_ENV
+              value: production
           envFrom:
             - secretRef:
                 name: stanovanjske-zadruge-zemljevid-secrets
@@ -44,6 +46,8 @@ spec:
           env:
             - name: DJANGO_SETTINGS_MODULE
               value: stanovanjskeZadrugeZemljevidApi.settings
+            - name: APP_ENV
+              value: production
           envFrom:
             - secretRef:
                 name: stanovanjske-zadruge-zemljevid-secrets
@@ -78,6 +82,8 @@ spec:
           env:
             - name: DJANGO_SETTINGS_MODULE
               value: stanovanjskeZadrugeZemljevidApi.settings
+            - name: APP_ENV
+              value: production
 #          resources:
 #            requests:
 #              memory: 1Gi
