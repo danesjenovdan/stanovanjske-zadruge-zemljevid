@@ -36,7 +36,7 @@ export default {
   },
   data() {
     return {
-      apiUrl: 'http://0.0.0.0:8000',
+      apiUrl: process.env.API_URL,
       map: [],
       messages: {},
       tileChosen: false,
