@@ -11,7 +11,6 @@ RUN yarn
 COPY . .
 EXPOSE 3000
 
-ENV API_URL=https://stanovanjske-zadruge-zemljevid.lb.djnd.si
 RUN yarn build
 
 # change base image

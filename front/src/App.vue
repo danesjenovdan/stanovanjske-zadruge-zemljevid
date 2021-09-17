@@ -36,7 +36,7 @@ export default {
   },
   data() {
     return {
-      apiUrl: process.env.API_URL,
+      apiUrl: "https://stanovanjske-zadruge-zemljevid.lb.djnd.si",
       map: [],
       messages: {},
       tileChosen: false,
