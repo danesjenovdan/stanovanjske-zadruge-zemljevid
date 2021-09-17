@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stanovanjske-zadruge-zemljevid-frontend
+  labels:
+    app: stanovanjske-zadruge-zemljevid-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stanovanjske-zadruge-zemljevid-frontend
+  template:
+    metadata:
+      labels:
+        app: stanovanjske-zadruge-zemljevid-frontend
+    spec:
+      containers:
+      - name: stanovanjske-zadruge-zemljevid-frontend
+        image: stanovanjske-zadruge-zemljevid-frontend # kustomize thing
+        ports:
+        - containerPort: 3000
+        env:
+          - name: API_URL
+            value: https://stanovanjske-zadruge-zemljevid.lb.djnd.si
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: stanovanjske-zadruge-zemljevid-frontend
+spec:
+  selector:
+    app: stanovanjske-zadruge-zemljevid-frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: stanovanjske-zadruge-zemljevid-frontend
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-production"
+spec:
+  tls:
+  - hosts:
+    - stanovanjske-zadruge-zemljevid-peticija.lb.djnd.si
+    secretName: stanovanjske-zadruge-zemljevid-frontend-tls
+  rules:
+  - host: stanovanjske-zadruge-zemljevid-peticija.lb.djnd.si
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: stanovanjske-zadruge-zemljevid-frontend
+            port:
+              number: 80

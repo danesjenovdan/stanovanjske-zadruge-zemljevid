@@ -5,7 +5,11 @@ resources:
   - deployment.yaml
   - service.yaml
   - ingress.yaml
+  - frontend.yaml
 images:
   - name: stanovanjske-zadruge-zemljevid
     newName: rg.fr-par.scw.cloud/djnd/stanovanjske-zadruge-zemljevid
     newTag: '9fec224f086420c4aa5265df1cac2cfab400b44d'
+  - name: stanovanjske-zadruge-zemljevid-frontend
+    newName: rg.fr-par.scw.cloud/djnd/stanovanjske-zadruge-zemljevid-frontend
+    newTag: 'latest'
