@@ -18,7 +18,7 @@ spec:
       - name: stanovanjske-zadruge-zemljevid-frontend
         image: stanovanjske-zadruge-zemljevid-frontend # kustomize thing
         ports:
-        - containerPort: 3000
+        - containerPort: 80
         env:
           - name: API_URL
             value: https://stanovanjske-zadruge-zemljevid.lb.djnd.si
@@ -33,7 +33,7 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 3000
+      targetPort: 80
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress

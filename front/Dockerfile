@@ -1,5 +1,5 @@
 # start with the nodejs image, calling it 'build'
-FROM node:14-alpine
+FROM node:14-alpine as build
 RUN apk add --update --no-cache python3 make g++
 
 # install node modules
@@ -11,14 +11,11 @@ RUN yarn
 COPY . .
 EXPOSE 3000
 
+ENV API_URL=https://stanovanjske-zadruge-zemljevid.lb.djnd.si
 RUN yarn build
 
-CMD ["yarn", "serve"]
+# change base image
+FROM nginx:alpine
 
-# # change base image
-# FROM nginx:alpine
-
-# # copy built files from the 'build' container into the nginx container
-# COPY --from=build assets /usr/share/nginx/html/assets
-# COPY --from=build dist /usr/share/nginx/html/dist
-# COPY --from=build index.html /usr/share/nginx/html
+# copy built files from the 'build' container into the nginx container
+COPY --from=build dist /usr/share/nginx/html
