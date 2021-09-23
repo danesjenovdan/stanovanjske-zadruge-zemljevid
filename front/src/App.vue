@@ -23,7 +23,7 @@
         @back-to-variation="backToVariation"
         @new-message="addMessage"
     />
-    <SignaturesPopup />
+    <SignaturesPopup v-if="showPopupNo !== 3" />
   </div>
 
 </template>
