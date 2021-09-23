@@ -1,36 +1,48 @@
 <template>
-  <div class="popup">
-    <div class="popup-content" v-if="!tileChosen && !tilePlaced">
-      <h1>Pomagaj graditi virtualno skupnost.</h1>
-      <h3>Izberi prazno območje.</h3>
-    </div>
-    <div class="popup-content" v-if="!tilePlaced">
-      <h3 v-if="tileChosen && !objectChosen">Izberi objekt</h3>
-      <h3 v-if="objectChosen">Izberi variacijo</h3>
+  <div class="popup" :class="{'fixed-to-top': showPopupNo === 3}">
+    <div class="popup-content" v-if="showPopupNo === 1">
+      <h1>Pomagaj graditi stanovanjsko skupnost.</h1>
+      <h3>Izberi element.</h3>
       <ObjectOptions
-          v-if="tileChosen && !objectChosen"
-          @choose-option="showVariations"
-      />
-      <ObjectVariations
-          v-if="objectChosen"
-          :variations="objectVariations"
-          @place-on-map="placeOnMap"
+          @choose-object="objectIsChosen"
       />
     </div>
-    <div class="popup-content add-message" v-if="tilePlaced && !showThankYou">
+    <div class="popup-content" v-if="showPopupNo === 2">
+      <h1>Pomagaj graditi stanovanjsko skupnost.</h1>
+      <h3>Izberi variacijo</h3>
+      <ObjectVariations
+          :variations="objectChosen"
+          @choose-variation="variationIsChosen"
+      />
+      <p @click="backToObject" class="back-button">&lt; Nazaj</p>
+    </div>
+    <div class="popup-content" v-if="showPopupNo === 3">
+      <h1>Pomagaj graditi stanovanjsko skupnost.</h1>
+      <h3>Izberi prazen prostor na zemljevidu.</h3>
+      <div class="object-panel-chosen">
+        <div class="object-option">
+          <div class="object-img">
+            <img :src="require('../assets/tiles/' + objectVariationChosen + '.png')" />
+          </div>
+        </div>
+      </div>
+      <p @click="backToVariation" class="back-button">&lt; Nazaj</p>
+    </div>
+    <div class="popup-content add-message" v-if="showPopupNo === 4">
       <h3>Dodaj sporočilo</h3>
       <p>Tvoje ime ne bo objavljeno.</p>
       <form id="submit-message">
         <textarea v-model="messageText" rows="10" />
+        <p v-if="messageError" class="message-error">Vsebina sporočila ne more biti prazna</p>
         <div>
           <button type="button" @click="saveMessage" :disabled="buttonText !== 'Oddaj'">{{ buttonText }}</button>
           <span @click="thankyou">Preskoči</span>
         </div>
       </form>
     </div>
-    <div class="popup-content thank-you-message" v-if="showThankYou">
-      <h1>Povej naprej</h1>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    <div class="popup-content thank-you-message" v-if="showPopupNo === 5">
+      <h1>Povej naprej!</h1>
+      <p>Več nas bo gradilo, prej bodo stanovanjske zadruge zaživele tudi pri nas.</p>
       <h3>Skopiraj povezavo</h3>
       <span :class="{ 'copied': copiedUrl }" @click="copyLink">{{ shareUrl }}</span>
     </div>
@@ -46,15 +58,16 @@ export default {
   components: {ObjectVariations, ObjectOptions},
   data() {
     return {
-      objectChosen: false,
-      objectVariations: 0,
+      objectChosen: null,
       tilePlaced: false,
       messageText: "",
-      showThankYou: false,
+      messageError: false,
       shareUrl: "djnd.si/anhk1790",
       copiedUrl: false,
       buttonText: "Oddaj"
     }
+  },
+  watch: {
   },
   props: {
     apiUrl: {
@@ -69,19 +82,30 @@ export default {
       type: Number,
       default: null
     },
+    objectVariationChosen: {
+      type: Number,
+      default: null
+    },
+    showPopupNo: {
+      type: Number,
+      default: 1
+    }
   },
   methods: {
-    showVariations(n) {
-      this.objectChosen = true
-      this.objectVariations = n
+    objectIsChosen(n) {
+      this.objectChosen = n
+      this.$emit('object-chosen');
     },
-    placeOnMap(i) {
-      this.$emit('place-on-map', i);
-      this.tilePlaced = true;
+    variationIsChosen(i) {
+      this.$emit('variation-chosen', i);
     },
     async saveMessage() {
-      if (this.tileChosenId) {
+      if (!this.messageText) {
+        this.messageError = true
+      }
+      if (this.tileChosenId && this.messageText) {
         this.buttonText = "PoŠiljam..."
+        this.messageError = false
         await this.axios.post(this.apiUrl + '/api/message/', {
           "index": this.tileChosenId,
           "text": this.messageText
@@ -99,11 +123,17 @@ export default {
       }
     },
     thankyou() {
-      this.showThankYou = true;
+      this.$emit('thank-you');
     },
     copyLink() {
       navigator.clipboard.writeText(this.shareUrl);
       this.copiedUrl = true
+    },
+    backToObject() {
+      this.$emit('back-to-object');
+    },
+    backToVariation() {
+      this.$emit('back-to-variation');
     }
   }
 }
@@ -114,59 +144,126 @@ export default {
   position: fixed;
   z-index: 1000;
   background-image: url("../assets/popup-blob.png");
-  top: 300px;
-  left: 50px;
-  height: 354px;
-  width: 361px;
-  padding: 40px;
-
+  background-size: 100% 100%;;
+  top: 20vh;
+  left: 5vw;
+  height: auto;
+  width: 80vw;
+  max-width: 361px;
+  padding: 20px;
 }
+
+.popup.fixed-to-top {
+  top: 10px;
+}
+
 @media (min-width: 992px) {
-  .popup {
+  .popup, .popup.fixed-to-top {
     top: 50vh;
     left: 50px;
     transform: translateY(-50%);
   }
 }
+
 .popup-content {
-  margin: 40px;
+  margin: 32px;
+}
+
+@media (min-width: 992px) {
+  .popup-content {
+    margin: 40px;
+  }
 }
 
 h1 {
   font-family: 'Azeret Mono', monospace;
+  font-size: 1.25rem;
 }
 h3 {
   font-family: 'Azeret Mono', monospace;
   font-weight: 400;
+  font-size: 1rem;
 }
+@media (min-width: 992px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+  h3 {
+    font-size: 1rem;
+  }
+}
+
 .object-option {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 10px;
+  display: inline-block;
+  padding-right: 16px;
+  width: 62px;
+}
+.object-option:nth-child(3n+3) {
+  padding-right: 0;
 }
 .object-option:hover {
   cursor: pointer;
 }
+
+.object-panel-chosen {
+  display: none;
+}
+
+@media (min-width: 992px) {
+  .object-panel-chosen {
+    display: flex;
+    justify-content: center;
+    margin-top: 32px;
+    margin-bottom: 32px;
+  }
+
+  .object-panel-chosen .object-option {
+    padding-right: 0;
+  }
+}
+
 .object-option:hover .object-img {
   outline: 2px solid black;
 }
 .object-option span {
   font-family: 'Quicksand', sans-serif;
   font-weight: 600;
+  font-size: 12px;
+  text-align: center;
+  display: block;
   margin-top: 5px;
+  margin-bottom: 10px;
 }
+
+
 .object-img {
   padding: 10px;
   border: 2px solid #000000;
 }
 .object-img img {
   display: block;
-  height: 48px;
-  width: 48px;
+  height: 40px;
+  width: 40px;
+}
+
+.popup-content .back-button {
+  font-family: 'Azeret Mono', monospace;
+  cursor: pointer;
+}
+@media (min-width: 992px) {
+  .object-option {
+    padding-right: 14px;
+    width: 72px;
+  }
+  .object-img img {
+    display: block;
+    height: 48px;
+    width: 48px;
+  }
+
 }
 .popup-content form textarea {
-  width: 100%;
+  width: calc(100% - 40px);
   border: 2px solid #000000;
   margin-bottom: 1rem;
   padding: 1rem;
@@ -202,6 +299,11 @@ h3 {
   padding: 0.5rem 2rem;
   cursor: pointer;
 }
+
+.popup-content form .message-error {
+  color: red;
+}
+
 .popup-content form button:hover {
   background-color: #4d957f;
 }
@@ -212,6 +314,7 @@ h3 {
   margin-top: 0;
   font-family: 'Quicksand', sans-serif;
 }
+
 .popup-content.thank-you-message h1 {
   margin-bottom: 0.5rem;
 }

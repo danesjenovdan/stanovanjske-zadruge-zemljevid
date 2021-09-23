@@ -9,7 +9,7 @@
       :class="{
         'taken-with-message': index in messages,
         'taken': !(index in messages) && item >= 10,
-        'available': item < 10 && !tileChosen,
+        'available': item < 10 && mapActive,
         'chosen': tileChosen === index,
         'show-message': messageTile === index
       }"
@@ -37,6 +37,10 @@ export default {
     messages: {
       type: Object,
       default: ()=>{}
+    },
+    mapActive: {
+      type: Boolean,
+      default: false
     },
     tileChosen: {
       type: Number,
@@ -75,13 +79,13 @@ export default {
 
 <style scoped>
 .map-container {
-  width: 6400px;
+  width: 4800px;
 }
 .tile {
   float: left;
   position: relative;
-  width: 64px;
-  height: 64px;
+  width: 48px;
+  height: 48px;
   background-size: cover;
 }
 @media (min-width: 992px) {
