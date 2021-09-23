@@ -1,5 +1,5 @@
 <template>
-  <div v-if="this.map" class="map-container" :class="{'frozen': tileChosen }">
+  <div v-if="this.map" class="map-container">
     <div
       v-for="(item, index) in this.map"
       :key="index"
@@ -62,7 +62,7 @@ export default {
         }
       } else { // tile still available
         // no tile has been chosen yet
-        if (!this.tileChosen) {
+        if (this.mapActive) {
           this.chooseTile(index);
         }
       }
