@@ -37,20 +37,19 @@ export default {
 <style scoped>
 
 .signatures-popup {
+  display: none;
   position: fixed;
   z-index: 1000;
   background-image: url("../assets/signatures-blob.png");
   top: 50px;
-  left: 50px;
+  right: 50px;
   height: 162px;
   width: 440px;
 }
 
 @media (min-width: 992px) {
   .signatures-popup {
-    top: 50px;
-    left: unset;
-    right: 50px;
+    display: block;
   }
 }
 

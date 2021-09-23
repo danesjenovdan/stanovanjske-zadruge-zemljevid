@@ -1,40 +1,38 @@
 <template>
   <div>
-    <div class="object-option" @click="showVariations(1)">
-      <div class="object-img">
-        <img src="@/assets/tiles/11.png" />
+    <div>
+      <div class="object-option" @click="showVariations(1)">
+        <div class="object-img">
+          <img src="@/assets/tiles/11.png" />
+        </div>
+        <span>Hiša</span>
       </div>
-      <span>Hiša</span>
+      <div class="object-option" @click="showVariations(2)">
+        <div class="object-img">
+          <img src="@/assets/tiles/21.png" />
+        </div>
+        <span>Blok</span>
+      </div>
+      <div class="object-option" @click="showVariations(3)">
+        <div class="object-img">
+          <img src="@/assets/tiles/30.png" />
+        </div>
+        <span>Zelenje</span>
+      </div>
     </div>
-    <div class="object-option" @click="showVariations(2)">
-      <div class="object-img">
-        <img src="@/assets/tiles/21.png" />
+    <div>
+      <div class="object-option" @click="showVariations(4)">
+        <div class="object-img">
+          <img src="@/assets/tiles/45.png" />
+        </div>
+        <span>Hobi</span>
       </div>
-      <span>Blok</span>
-    </div>
-    <div class="object-option" @click="showVariations(3)">
-      <div class="object-img">
-        <img src="@/assets/tiles/30.png" />
+      <div class="object-option" @click="showVariations(5)">
+        <div class="object-img">
+          <img src="@/assets/tiles/54.png" />
+        </div>
+        <span>Pokrajina</span>
       </div>
-      <span>Zelenje</span>
-    </div>
-    <div class="object-option" @click="showVariations(4)">
-      <div class="object-img">
-        <img src="@/assets/tiles/45.png" />
-      </div>
-      <span>Hobi</span>
-    </div>
-    <div class="object-option" @click="showVariations(5)">
-      <div class="object-img">
-        <img src="@/assets/tiles/54.png" />
-      </div>
-      <span>Pokrajina</span>
-    </div>
-    <div class="object-option" @click="showVariations(6)">
-      <div class="object-img">
-        <img src="@/assets/tiles/60.png" />
-      </div>
-      <span>Reka</span>
     </div>
   </div>
 </template>
@@ -44,7 +42,7 @@ export default {
   name: "ObjectOptions",
   methods: {
     showVariations(n) {
-      this.$emit('choose-option', n);
+      this.$emit('choose-object', n);
     }
   }
 }
