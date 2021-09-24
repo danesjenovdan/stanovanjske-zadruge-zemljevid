@@ -21,16 +21,16 @@ export default {
   data() {
     return {
       optionsNo: {
-        1: [10, 11, 12, 13, 14, 15],
+        1: [10, 13, 15],
         2: [20, 21, 22, 23, 24, 25],
-        3: [30, 31, 32, 33, 34, 35],
-        4: [40, 41, 42, 43, 44, 45, 46, 47, 48],
-        5: [50, 51, 52, 53, 54],
+        3: [30, 31, 32],
+        4: [40, 41, 44, 45, 47, 48],
+        5: [50, 51, 52, 53, 54, 60, 61, 62, 63, 64, 65],
       },
       objectNames: {
         10: 'Zadružna trgovina',
-        15: 'Otroški vrtec',
         13: 'Medgeneracijski center',
+        15: 'Otroški vrtec',
         20: 'Dom za enega',
         21: 'Dom za dva',
         22: 'Dom za tri',
