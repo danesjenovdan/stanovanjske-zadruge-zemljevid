@@ -1,35 +1,29 @@
 <template>
   <div>
     <div>
-      <div class="object-option" @click="showVariations(1)">
+      <div class="object-option" @click="showVariations('domovanje')">
         <div class="object-img">
-          <img src="@/assets/tiles/11.png" />
+          <img src="@/assets/tiles/20.png" />
         </div>
-        <span>Hiša</span>
+        <span>Domovanje</span>
       </div>
-      <div class="object-option" @click="showVariations(2)">
+      <div class="object-option" @click="showVariations('skupnost')">
         <div class="object-img">
-          <img src="@/assets/tiles/21.png" />
+          <img src="@/assets/tiles/23.png" />
         </div>
-        <span>Blok</span>
+        <span>Skupnost</span>
       </div>
-      <div class="object-option" @click="showVariations(3)">
+      <div class="object-option" @click="showVariations('park')">
         <div class="object-img">
           <img src="@/assets/tiles/30.png" />
         </div>
-        <span>Zelenje</span>
+        <span>Park</span>
       </div>
     </div>
     <div>
-      <div class="object-option" @click="showVariations(4)">
+      <div class="object-option" @click="showVariations('pokrajina')">
         <div class="object-img">
-          <img src="@/assets/tiles/45.png" />
-        </div>
-        <span>Hobi</span>
-      </div>
-      <div class="object-option" @click="showVariations(5)">
-        <div class="object-img">
-          <img src="@/assets/tiles/54.png" />
+          <img src="@/assets/tiles/50.png" />
         </div>
         <span>Pokrajina</span>
       </div>
