@@ -2,8 +2,9 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Map, Message
-from .serializers import MapSerializer, MessageSerializer
+import uuid
+from .models import Map, Message, Token
+from .serializers import MapSerializer, MessageSerializer, TokenSerializer
 
 class MapView(APIView):
     def get(self, request):
@@ -32,3 +33,11 @@ class MessageView(APIView):
             return Response({"status": "success", "data": message_serializer.data}, status=status.HTTP_200_OK)
         else:
             return Response({"status": "error", "data": message_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+class TokenView(APIView):
+    def post(self, request):
+        token_string = uuid.uuid4().hex
+        new_token = Token(token = token_string, used = False)
+        new_token.save()
+        token_serializer = TokenSerializer(new_token)
+        return Response({"status": "success", "data": token_serializer.data}, status=status.HTTP_200_OK)
