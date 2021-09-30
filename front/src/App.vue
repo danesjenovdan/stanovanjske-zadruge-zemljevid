@@ -1,8 +1,5 @@
 <template>
   <div class="content">
-    <div v-if="showPopupNo !== 3" class="logo">
-      <img src="@/assets/logo.png" />
-    </div>
     <Map
         :map="map"
         :map-active="mapActive"
@@ -43,7 +40,7 @@ export default {
   },
   data() {
     return {
-      apiUrl: "https://stanovanjske-zadruge-zemljevid.lb.djnd.si",
+      apiUrl: "https://stanovanjske-zadruge-zemljevid.lb.djnd.si", // to do: change to final url
       // apiUrl: 'http://0.0.0.0:8000',
       map: [],
       messages: {},
@@ -90,31 +87,6 @@ export default {
     }
   },
   methods: {
-    async placeOnMap(i) {
-      console.log('a to se dogaja')
-      this.objectChosen = i
-      if (this.tileChosen && this.objectChosen) {
-        this.map[this.tileChosen] = this.objectChosen
-        console.log({
-          'map': this.map,
-          'token': this.token
-        })
-        await this.axios.post(this.apiUrl + '/api/map/', {
-          'map': this.map,
-          'token': this.token
-        }).then((res) => {
-          if (res.status === 200) {
-            document.getElementById('tile-' + this.tileChosen).style.backgroundImage = "url(" + require('@/assets/tiles/' + this.objectChosen + '.png') + ")";
-            console.log('success');
-          } else {
-            alert("Nekaj je šlo narobe :(")
-            console.log('error')
-          }
-        }).catch((err) => {
-          console.log(err)
-        })
-      }
-    },
     addMessage(message) {
       this.messages[message.index] = message.text;
     },
@@ -167,31 +139,11 @@ html, body {
   margin: 0;
   padding: 0;
 }
-#app {
-}
 .content {
   position: relative;
   overflow: scroll;
 }
-.logo {
-  position: fixed;
-  z-index: 1000;
-  left: 40px;
-  top: 30px;
-  pointer-events: none;
-}
-.logo img {
-  width: 90px;
-  height: 90px;
-}
 @media (min-width: 992px) {
-  .logo {
-    display: block;
-  }
-  .logo img {
-    width: 120px;
-    height: 120px;
-  }
   .content {
     position: relative;
     overflow: unset;

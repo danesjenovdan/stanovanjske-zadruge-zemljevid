@@ -44,7 +44,7 @@
       <h1>Povej naprej!</h1>
       <p>Več nas bo gradilo, prej bodo stanovanjske zadruge zaživele tudi pri nas.</p>
       <h3>Skopiraj povezavo</h3>
-      <span :class="{ 'copied': copiedUrl }" @click="copyLink">{{ shareUrl }}</span>
+      <span @click="copyLink">{{ shareUrl }}</span>
     </div>
   </div>
 </template>
@@ -62,8 +62,7 @@ export default {
       tilePlaced: false,
       messageText: '',
       messageError: false,
-      shareUrl: 'djnd.si/anhk1790',
-      copiedUrl: false,
+      shareUrl: 'djnd.si/anhk1790', // to do: change url to landing page
       buttonText: 'Oddaj'
     }
   },
@@ -296,7 +295,7 @@ h3 {
 }
 
 .popup-content form div span:hover {
-  color: #4d957f;
+  color: #82CEE8;
 }
 
 .popup-content form button {
@@ -318,7 +317,7 @@ h3 {
 }
 
 .popup-content form button:hover {
-  background-color: #4d957f;
+  background-color: #82CEE8;
 }
 .popup-content.add-message h3 {
   margin: 0;
@@ -346,8 +345,5 @@ h3 {
   border: 2px solid #000000;
   padding: 10px 40px;
   cursor: pointer;
-}
-.popup-content.thank-you-message span.copied {
-  background-color: lightblue;
 }
 </style>

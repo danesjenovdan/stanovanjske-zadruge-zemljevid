@@ -2,10 +2,10 @@
   <div class="signatures-popup">
     <div class="signatures-popup-content">
       <p>
-        Zbranih <span>{{ counter }}</span> od 5000 podpisov
+        Zbranih <span>{{ counter }}</span> od {{ signaturesGoal }} podpisov
       </p>
       <div class="progress">
-        <div class="progress-bar" role="progressbar" :aria-valuenow="counter" aria-valuemin="0" aria-valuemax="5000" :style="'width:' + progressBarWidth"></div>
+        <div class="progress-bar" role="progressbar" :aria-valuenow="counter" aria-valuemin="0" :aria-valuemax="signaturesGoal" :style="'width:' + progressBarWidth"></div>
       </div>
     </div>
   </div>
@@ -23,12 +23,17 @@ export default {
   },
   data() {
     return {
-      counter: 0
+      counter: 0,
+      signaturesGoal: 3000
     }
   },
   computed: {
     progressBarWidth() {
-      return Math.round(this.counter/5000*100) + '%';
+      let progressBarWidth = Math.ceil(this.counter/this.signaturesGoal*100)
+      if (progressBarWidth < 5) {
+        progressBarWidth = 5;
+      }
+      return progressBarWidth + '%';
     }
   }
 }
@@ -61,22 +66,22 @@ p {
   font-family: 'Quicksand', sans-serif;
   font-size: 1.25rem;
   font-weight: 600;
-  margin: 0.5rem 0;
+  margin: 0.75rem 0;
 }
 
 .progress {
   margin: 0;
   width: 100%;
-  height: 2rem;
-  background-color: #efb046;
+  height: 1.5rem;
+  background-color: #FBEA22;
   border-radius: 2rem;
-  padding: 2px;
+  padding: 4px;
   overflow: visible;
 }
 
 .progress-bar {
-  background-color: #4d957f;
-  border-radius: 2rem;
+  background-color: #82CEE8;
+  border-radius: 1rem;
   height: 100%;
   position: relative;
   overflow: visible;
