@@ -58,19 +58,23 @@ export default {
   components: {ObjectVariations, ObjectOptions},
   data() {
     return {
-      objectChosen: null,
+      objectChosen: '',
       tilePlaced: false,
-      messageText: "",
+      messageText: '',
       messageError: false,
-      shareUrl: "djnd.si/anhk1790",
+      shareUrl: 'djnd.si/anhk1790',
       copiedUrl: false,
-      buttonText: "Oddaj"
+      buttonText: 'Oddaj'
     }
   },
   watch: {
   },
   props: {
     apiUrl: {
+      type: String,
+      default: ''
+    },
+    token: {
       type: String,
       default: ''
     },
@@ -107,8 +111,9 @@ export default {
         this.buttonText = "PoŠiljam..."
         this.messageError = false
         await this.axios.post(this.apiUrl + '/api/message/', {
-          "index": this.tileChosenId,
-          "text": this.messageText
+          'index': this.tileChosenId,
+          'text': this.messageText,
+          'token': this.token
         }).then((res) => {
           if (res.status === 200) {
             this.thankyou()
@@ -125,9 +130,17 @@ export default {
     thankyou() {
       this.$emit('thank-you');
     },
-    copyLink() {
-      navigator.clipboard.writeText(this.shareUrl);
-      this.copiedUrl = true
+    copyLink(e) {
+      const el = e.target;
+      const sel = window.getSelection();
+      if (sel.toString() === ''){ // no text selection
+        window.setTimeout(function(){
+          const range = document.createRange(); // range object
+          range.selectNodeContents(el); // sets Range
+          sel.removeAllRanges(); // remove all ranges from selection
+          sel.addRange(range);// add Range to a Selection.
+        },1);
+      }
     },
     backToObject() {
       this.$emit('back-to-object');

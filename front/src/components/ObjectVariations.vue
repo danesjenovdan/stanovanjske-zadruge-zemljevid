@@ -14,8 +14,8 @@ export default {
   name: "ObjectVariations",
   props: {
     variations: {
-      type: Number,
-      default: 0
+      type: String,
+      default: ''
     },
   },
   data() {

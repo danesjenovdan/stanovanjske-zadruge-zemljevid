@@ -20,9 +20,6 @@ class MessageSerializer(serializers.ModelSerializer):
 
 
 class TokenSerializer(serializers.ModelSerializer):
-    token = serializers.CharField()
-    used = serializers.BooleanField()
-
     class Meta:
         model = Token
-        fields = ('__all__')
+        fields = ['token']
