@@ -16,6 +16,7 @@
         :tile-chosen-id="tileChosen"
         :object-variation-chosen="objectVariationChosen"
         :show-popup-no="showPopupNo"
+        :token="token"
         @object-chosen="objectIsChosen"
         @variation-chosen="variationIsChosen"
         @thank-you="thankYou"
@@ -43,12 +44,15 @@ export default {
   data() {
     return {
       apiUrl: "https://stanovanjske-zadruge-zemljevid.lb.djnd.si",
+      // apiUrl: 'http://0.0.0.0:8000',
       map: [],
       messages: {},
       tileChosen: null,
       objectVariationChosen: null,
       mapActive: false,
-      showPopupNo: 1
+      token: '',
+      tokenConfirmed: false,
+      showPopupNo: 5
     }
   },
   async created() {
@@ -70,14 +74,34 @@ export default {
         console.log('error')
       }
     })
+    this.token = this.$route.query.token
+    if (this.token) {
+      await this.axios.get(this.apiUrl + '/api/token/?token=' + this.token).then((res) => {
+        if (res.status === 200) {
+          console.log(res)
+          if (res.data.status === "success") {
+            this.tokenConfirmed = true
+            this.showPopupNo = 1
+          }
+        }
+      }).catch((err) => {
+        console.log(err);
+      })
+    }
   },
   methods: {
     async placeOnMap(i) {
+      console.log('a to se dogaja')
       this.objectChosen = i
       if (this.tileChosen && this.objectChosen) {
         this.map[this.tileChosen] = this.objectChosen
+        console.log({
+          'map': this.map,
+          'token': this.token
+        })
         await this.axios.post(this.apiUrl + '/api/map/', {
-          "map": this.map
+          'map': this.map,
+          'token': this.token
         }).then((res) => {
           if (res.status === 200) {
             document.getElementById('tile-' + this.tileChosen).style.backgroundImage = "url(" + require('@/assets/tiles/' + this.objectChosen + '.png') + ")";
@@ -86,6 +110,8 @@ export default {
             alert("Nekaj je šlo narobe :(")
             console.log('error')
           }
+        }).catch((err) => {
+          console.log(err)
         })
       }
     },
@@ -117,7 +143,8 @@ export default {
       if (this.tileChosen && this.objectVariationChosen) {
         this.map[this.tileChosen] = this.objectVariationChosen
         await this.axios.post(this.apiUrl + '/api/map/', {
-          "map": this.map
+          "map": this.map,
+          'token': this.token
         }).then((res) => {
           if (res.status === 200) {
             document.getElementById('tile-' + this.tileChosen).style.backgroundImage = "url(" + require('@/assets/tiles/' + this.objectVariationChosen + '.png') + ")";
