@@ -112,6 +112,9 @@ export default {
   outline: 2px solid black;
   z-index: 100;
 }
+.tile:hover .tile-message {
+  display: block;
+}
 .tile-message {
   display: none;
   position: absolute;
