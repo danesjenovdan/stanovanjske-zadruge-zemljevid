@@ -43,8 +43,8 @@ export default {
   },
   data() {
     return {
-      //apiUrl: "https://stanovanjske-zadruge-zemljevid.lb.djnd.si",
-      apiUrl: 'http://0.0.0.0:8000',
+      apiUrl: "https://stanovanjske-zadruge-zemljevid.lb.djnd.si",
+      // apiUrl: 'http://0.0.0.0:8000',
       map: [],
       messages: {},
       tileChosen: null,
