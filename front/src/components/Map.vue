@@ -79,7 +79,7 @@ export default {
 
 <style scoped>
 .map-container {
-  width: 4800px;
+  width: 3072px;
 }
 .tile {
   float: left;
@@ -89,9 +89,6 @@ export default {
   background-size: cover;
 }
 @media (min-width: 992px) {
-  .map-container {
-    width: 4800px;
-  }
   .tile {
     float: left;
     position: relative;
