@@ -7,6 +7,7 @@
       <div class="progress">
         <div class="progress-bar" role="progressbar" :aria-valuenow="counter" aria-valuemin="0" :aria-valuemax="signaturesGoal" :style="'width:' + progressBarWidth"></div>
       </div>
+      <p class="subtitle">1 podpis = 1 gradnik</p>
     </div>
   </div>
 </template>
@@ -62,6 +63,12 @@ export default {
   margin: 40px;
 }
 
+.signatures-popup-content .subtitle {
+  font-size: 1rem;
+  margin-top: 0.25rem;
+  margin-left: 0.25rem;
+}
+
 p {
   font-family: 'Quicksand', sans-serif;
   font-size: 1.25rem;
@@ -73,14 +80,14 @@ p {
   margin: 0;
   width: 100%;
   height: 1.5rem;
-  background-color: #FBEA22;
+  background-color: #EFB046;
   border-radius: 2rem;
   padding: 4px;
   overflow: visible;
 }
 
 .progress-bar {
-  background-color: #82CEE8;
+  background-color: #4d957f;
   border-radius: 1rem;
   height: 100%;
   position: relative;
