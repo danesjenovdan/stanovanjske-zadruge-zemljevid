@@ -9,7 +9,7 @@ resources:
 images:
   - name: stanovanjske-zadruge-zemljevid
     newName: rg.fr-par.scw.cloud/djnd/stanovanjske-zadruge-zemljevid
-    newTag: '17c2dec79e0b011b9f48a1e1c2e2d00ae9ca6173'
+    newTag: '0502b7fab8336429d666de3469ed51cf187b5e87'
   - name: stanovanjske-zadruge-zemljevid-frontend
     newName: rg.fr-par.scw.cloud/djnd/stanovanjske-zadruge-zemljevid-frontend
-    newTag: '17c2dec79e0b011b9f48a1e1c2e2d00ae9ca6173'
+    newTag: '0502b7fab8336429d666de3469ed51cf187b5e87'
