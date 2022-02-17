@@ -2,14 +2,14 @@
   <div class="popup" :class="{'fixed-to-top': showPopupNo === 3}">
     <div class="popup-content" v-if="showPopupNo === 1">
       <h1>Pomagaj graditi stanovanjsko skupnost.</h1>
-      <h3>Izberi element.</h3>
+      <h3>Izberi, kar si želiš.</h3>
       <ObjectOptions
           @choose-object="objectIsChosen"
       />
     </div>
     <div class="popup-content" v-if="showPopupNo === 2">
       <h1>Pomagaj graditi stanovanjsko skupnost.</h1>
-      <h3>Izberi variacijo</h3>
+      <h3>Izberi gradnik.</h3>
       <ObjectVariations
           :variations="objectChosen"
           @choose-variation="variationIsChosen"
@@ -157,7 +157,7 @@ export default {
   z-index: 1000;
   background-image: url("../assets/popup-blob.png");
   background-size: 100% 100%;;
-  top: 20vh;
+  top: 10vh;
   left: 5vw;
   height: auto;
   width: 80vw;
