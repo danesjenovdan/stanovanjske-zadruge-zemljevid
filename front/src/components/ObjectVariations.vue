@@ -22,7 +22,7 @@ export default {
     return {
       optionsNo: {
         'domovanje': [20, 21, 22, 25, 24, 48],
-        'skupnost': [23, 13, 10, 47, 44, 15],
+        'skupnost': [23, 10, 13, 47, 44, 15],
         'park': [30, 31, 32, 40, 45, 41],
         'pokrajina': [50, 51, 52, 53, 54, 60, 61, 62, 63, 64, 65],
       },
