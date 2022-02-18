@@ -1,10 +1,19 @@
 from django.shortcuts import render
+from django.conf import settings
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 import uuid
+import json
+from mailchimp_marketing import Client
+from mailchimp_marketing.api_client import ApiClientError
 from .models import Map, Message, Token
 from .serializers import MapSerializer, MessageSerializer, TokenSerializer
+
+# mailchimp vars
+MAILCHIMP_LIST_ID = "3d0069f969"
+MAILCHIMP_SEGMENT_ID = "4022841"
+MAILCHIMP_SERVER = "us1"
 
 class MapView(APIView):
     def get(self, request):
@@ -73,3 +82,64 @@ class TokenView(APIView):
         token_serializer = TokenSerializer(new_token)
         return Response({"status": "success", "data": token_serializer.data}, status=status.HTTP_200_OK)
 
+class SubscribersView(APIView):
+    # get number of subscribers
+    def get(self, request):
+        mailchimp = Client()
+        mailchimp.set_config({
+            "api_key": settings.MAILCHIMP_API_KEY,
+            "server": MAILCHIMP_SERVER
+        })
+        try:
+            response = mailchimp.lists.get_segment(list_id=MAILCHIMP_LIST_ID, segment_id=MAILCHIMP_SEGMENT_ID)
+            return Response({"counter": response.get("member_count", -1)}, status=status.HTTP_200_OK)
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+class SubscriberView(APIView):
+    # create new subscriber
+    def post(self, request):
+        newsletter = False
+        email = ''
+        name = ''
+
+        params = json.loads(request.body)
+
+        if params:
+            # email is required
+            if 'email' in params:
+                email = params.get('email')
+            else:
+                return Response({"message": "no email in params"}, status=status.HTTP_400_BAD_REQUEST)
+            # name is required
+            if 'name' in params:
+                name = params.get('name')
+            else:
+                return Response({"message": "no name in params"}, status=status.HTTP_400_BAD_REQUEST)
+            # newsletter is not required
+            if 'newsletter' in params:
+                newsletter = params.get('newsletter')
+
+        mailchimp = Client()
+        mailchimp.set_config({
+            "api_key": settings.MAILCHIMP_API_KEY,
+            "server": MAILCHIMP_SERVER
+        })
+        try:
+            response = mailchimp.lists.add_list_member(
+                list_id=MAILCHIMP_LIST_ID,
+                body={
+                    "email_address": email,
+                    "status": "subscribed",
+                    "merge_fields": {
+                        "MMERGE1": name
+                    },
+                    "interests": {
+                        "a2c2bb7477": True,
+                        "c44216baa3": newsletter
+                    }
+                }
+            )
+            return Response({"message": "member created"}, status=status.HTTP_200_OK)
+        except ApiClientError as error:
+            return Response({"message": error.text}, status=status.HTTP_400_BAD_REQUEST)
