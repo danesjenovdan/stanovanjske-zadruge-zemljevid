@@ -125,12 +125,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
-
-STATIC_URL = '/static/'
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -163,4 +157,7 @@ if os.getenv('DJANGO_ENABLE_S3', False):
     AWS_S3_SIGNATURE_VERSION = os.getenv('DJANGO_AWS_S3_SIGNATURE_VERSION', 's3v4')
 
 # CORS
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = True # TODO nastavi na false
+# CORS_ALLOWED_ORIGINS = [] # TODO
+
+MAILCHIMP_API_KEY = os.getenv('MAILCHIMP_API_KEY', 'secret')
