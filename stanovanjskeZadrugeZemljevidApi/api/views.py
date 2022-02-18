@@ -140,6 +140,13 @@ class SubscriberView(APIView):
                     }
                 }
             )
-            return Response({"message": "member created"}, status=status.HTTP_200_OK)
+
+            # generate token
+            token_string = uuid.uuid4().hex
+            new_token = Token(token = token_string, used = False)
+            new_token.save()
+            token_serializer = TokenSerializer(new_token)
+
+            return Response({"message": "member created", "data": token_serializer.data}, status=status.HTTP_200_OK)
         except ApiClientError as error:
             return Response({"message": error.text}, status=status.HTTP_400_BAD_REQUEST)
