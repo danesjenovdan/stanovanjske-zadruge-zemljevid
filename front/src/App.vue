@@ -21,7 +21,7 @@
         @back-to-variation="backToVariation"
         @new-message="addMessage"
     />
-    <SignaturesPopup v-if="showPopupNo !== 3" />
+    <SignaturesPopup v-if="showPopupNo !== 3" :api-url="apiUrl" />
   </div>
 
 </template>

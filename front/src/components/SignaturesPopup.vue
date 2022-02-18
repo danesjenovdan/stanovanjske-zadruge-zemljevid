@@ -16,7 +16,7 @@
 export default {
   name: "SignaturesPopup",
   async created() {
-    await this.axios.get('https://api.djnd.si/getAllSignaturesAndCountForMultiple/?peticije=stanovanjskezadruge').then((res) => {
+    await this.axios.get(this.apiUrl + '/api/subscribers-count').then((res) => {
       if (res.status === 200) {
         this.counter = res.data.counter;
       }
@@ -35,6 +35,12 @@ export default {
         progressBarWidth = 5;
       }
       return progressBarWidth + '%';
+    }
+  },
+  props: {
+    apiUrl: {
+      type: String,
+      default: ''
     }
   }
 }
