@@ -40,7 +40,7 @@ export default {
   },
   data() {
     return {
-      apiUrl: "https://stanovanjske-zadruge-zemljevid.lb.djnd.si", // to do: change to final url
+      apiUrl: "https://stanovanjske-zadruge-zemljevid.lb.djnd.si",
       // apiUrl: 'http://0.0.0.0:8000',
       map: [],
       messages: {},

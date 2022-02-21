@@ -62,7 +62,7 @@ export default {
       tilePlaced: false,
       messageText: '',
       messageError: false,
-      shareUrl: 'djnd.si/anhk1790', // to do: change url to landing page
+      shareUrl: 'http://zastanovanjskezadruge.si/',
       buttonText: 'Oddaj'
     }
   },
@@ -342,8 +342,9 @@ h3 {
   display: block;
   font-family: 'Azeret Mono', monospace;
   font-style: italic;
+  font-size: 12px;
   border: 2px solid #000000;
-  padding: 10px 40px;
+  padding: 10px;
   cursor: pointer;
 }
 </style>
