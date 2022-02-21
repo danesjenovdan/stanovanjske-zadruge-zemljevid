@@ -45,6 +45,7 @@ spec:
   tls:
   - hosts:
     - stanovanjske-zadruge-zemljevid-peticija.lb.djnd.si
+    - zemljevid.zastanovanjskezadruge.si
     secretName: stanovanjske-zadruge-zemljevid-frontend-tls
   rules:
   - host: stanovanjske-zadruge-zemljevid-peticija.lb.djnd.si
@@ -57,3 +58,13 @@ spec:
             name: stanovanjske-zadruge-zemljevid-frontend
             port:
               number: 80
+  - host: zemljevid.zastanovanjskezadruge.si
+    http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: stanovanjske-zadruge-zemljevid-frontend
+              port:
+                number: 8000
