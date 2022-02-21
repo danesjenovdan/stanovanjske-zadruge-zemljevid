@@ -27,7 +27,7 @@ class MapView(APIView):
         if request_token.is_valid() and map_serializer.is_valid():
             try:
                 token = Token.objects.get(token=request_token.validated_data.get('token'))
-                if token.used == False:
+                if token.used == False or token.admin_token == True:
                     map_serializer.save()
                     token.used = True
                     token.save()
@@ -71,16 +71,16 @@ class TokenView(APIView):
             tokens = Token.objects.filter(token=token_param)
             if (len(tokens) > 0):
                 token = tokens[0]
-                if not token.used:
+                if not token.used or token.admin_token:
                     return Response({"status": "success"}, status=status.HTTP_200_OK)
         return Response({"status": "error"}, status=status.HTTP_200_OK)
 
-    def post(self, request):
-        token_string = uuid.uuid4().hex
-        new_token = Token(token = token_string, used = False)
-        new_token.save()
-        token_serializer = TokenSerializer(new_token)
-        return Response({"status": "success", "data": token_serializer.data}, status=status.HTTP_200_OK)
+    # def post(self, request):
+    #     token_string = uuid.uuid4().hex
+    #     new_token = Token(token = token_string, used = False)
+    #     new_token.save()
+    #     token_serializer = TokenSerializer(new_token)
+    #     return Response({"status": "success", "data": token_serializer.data}, status=status.HTTP_200_OK)
 
 class SubscribersView(APIView):
     # get number of subscribers

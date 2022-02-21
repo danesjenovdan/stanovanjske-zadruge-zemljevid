@@ -98,7 +98,7 @@ export default {
     },
     backToObject() {
       this.objectChosen = null
-      this.showPopupNo--
+      this.showPopupNo = 1
     },
     backToVariation() {
       this.objectVariationChosen = null

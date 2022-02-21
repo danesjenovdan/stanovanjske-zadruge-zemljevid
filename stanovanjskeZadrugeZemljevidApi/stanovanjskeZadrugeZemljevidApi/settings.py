@@ -158,10 +158,12 @@ if os.getenv('DJANGO_ENABLE_S3', False):
 
 # CORS
 CORS_ALLOWED_ORIGINS = [
-    'https://zastanovanjskezadruge.si/',
-    'https://www.zastanovanjskezadruge.si/',
-    'https://stanovanjske-zadruge.lb.djnd.si/',
-    'https://zemljevid.zastanovanjskezadruge.si/'
+    'https://zastanovanjskezadruge.si',
+    'https://www.zastanovanjskezadruge.si',
+    'https://stanovanjske-zadruge.lb.djnd.si',
+    'https://zemljevid.zastanovanjskezadruge.si'
 ]
+
+# CORS_ALLOW_ALL_ORIGINS = True
 
 MAILCHIMP_API_KEY = os.getenv('MAILCHIMP_API_KEY', 'secret')
