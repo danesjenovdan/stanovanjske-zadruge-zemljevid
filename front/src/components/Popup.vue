@@ -39,6 +39,8 @@
           <span @click="thankyou">Preskoči</span>
         </div>
       </form>
+      <!-- TODO: zbrisi to spodaj -->
+      <p @click="backToObject" class="back-button">POSTAVI NOV GRADNIK</p>
     </div>
     <div class="popup-content thank-you-message" v-if="showPopupNo === 5">
       <h1>Povej naprej!</h1>
