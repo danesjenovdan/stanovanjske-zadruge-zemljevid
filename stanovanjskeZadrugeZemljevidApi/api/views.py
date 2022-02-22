@@ -11,8 +11,8 @@ from .models import Map, Message, Token
 from .serializers import MapSerializer, MessageSerializer, TokenSerializer
 
 # mailchimp vars
-MAILCHIMP_LIST_ID = "3d0069f969"
-MAILCHIMP_SEGMENT_ID = "4022841"
+MAILCHIMP_LIST_ID = "20c6390df3"
+MAILCHIMP_SEGMENT_ID = "4023025"
 MAILCHIMP_SERVER = "us1"
 
 class MapView(APIView):
@@ -132,11 +132,11 @@ class SubscriberView(APIView):
                     "email_address": email,
                     "status": "subscribed",
                     "merge_fields": {
-                        "MMERGE1": name
+                        "NAME": name
                     },
                     "interests": {
-                        "a2c2bb7477": True,
-                        "c44216baa3": newsletter
+                        "1535b8bf4c": True,
+                        "066fb4c141": newsletter
                     }
                 }
             )
