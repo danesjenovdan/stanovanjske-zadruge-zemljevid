@@ -20,14 +20,14 @@
         <span>Park</span>
       </div>
     </div>
-    <div>
+    <!-- <div>
       <div class="object-option" @click="showVariations('pokrajina')">
         <div class="object-img">
           <img src="@/assets/tiles/50.png" />
         </div>
         <span>Pokrajina</span>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
