@@ -86,6 +86,17 @@ export default {
       })
     }
   },
+  mounted() {
+    this.$nextTick(() => {
+      setTimeout(() => {
+        window.scroll({
+          top: screen.height / 2,
+          left: screen.width / 2,
+          behavior: 'smooth'
+        });
+      }, 500)
+    })
+  },
   methods: {
     addMessage(message) {
       this.messages[message.index] = message.text;
