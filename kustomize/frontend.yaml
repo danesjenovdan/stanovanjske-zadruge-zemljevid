@@ -42,6 +42,7 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-production"
 spec:
+  ingressClassName: nginx
   tls:
   - hosts:
     - stanovanjske-zadruge-zemljevid-peticija.lb.djnd.si
