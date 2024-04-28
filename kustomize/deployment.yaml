@@ -84,10 +84,10 @@ spec:
               value: stanovanjskeZadrugeZemljevidApi.settings
             - name: APP_ENV
               value: production
-#          resources:
-#            requests:
-#              memory: 1Gi
-#              cpu: 500m
-#            limits:
-#              memory: 1Gi
-#              cpu: 500m
+          resources:
+            requests:
+              memory: 200Mi
+              cpu: 300m
+            limits:
+              memory: 200Mi
+              cpu: 300m
