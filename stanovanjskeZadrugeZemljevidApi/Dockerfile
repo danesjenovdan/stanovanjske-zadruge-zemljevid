@@ -1,21 +1,31 @@
-FROM python:3.8
+FROM python:3.15
+
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /usr/local/bin/
 
 RUN apt-get update && \
     apt-get upgrade -y
 
-RUN /usr/local/bin/python -m pip install --upgrade pip
-
 RUN mkdir /app
 WORKDIR /app
 
-COPY requirements.txt /app/
-RUN pip install -r requirements.txt
+ENV UV_COMPILE_BYTECODE=1 \
+	UV_LINK_MODE=copy \
+	UV_PYTHON_DOWNLOADS=0 \
+	UV_PROJECT_ENVIRONMENT=/opt/venv \
+	PATH="/opt/venv/bin:$PATH" \
+    DJANGO_SETTINGS_MODULE=api.settings \
+    PYTHONUNBUFFERED=1
 
-COPY . /app
+
+COPY pyproject.toml uv.lock ./
+RUN --mount=type=cache,target=/root/.cache/uv \
+	uv sync --locked --no-dev --no-install-project
+
+COPY . .
+
+RUN --mount=type=cache,target=/root/.cache/uv \
+	uv sync --locked --no-dev
 
 EXPOSE 8000
 
-ENV DJANGO_SETTINGS_MODULE=api.settings
-
-# this is the command for dev
-CMD python manage.py runserver 0.0.0.0:8000
+CMD exec python manage.py runserver 0.0.0.0:8000
